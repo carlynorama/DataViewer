@@ -39,6 +39,8 @@ final class DataManager: ObservableObject {
         let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: .arrayPrint)
         data = dataHopper.sortedByX()//.map { MyDataType(x: $0.x, y: $0.y) }
         hasData = !data.isEmpty
+        updateCurveFit()
+        updateErrorAnalysis()
     }
     
     //Fitting Data
@@ -48,8 +50,10 @@ final class DataManager: ObservableObject {
     func updateCurveFit() {
         let result = DataHelper.tryFit(for: data, using: curve)
         curveFitMessage = result.description
+        print("updateCurveFit: try fit result \(result)")
         let parameters = result.values
         functionGuess = DataHelper.generateFunction(using: curve, with: parameters)
+        updateErrorAnalysis()
     }
 
     func updateErrorAnalysis() {
