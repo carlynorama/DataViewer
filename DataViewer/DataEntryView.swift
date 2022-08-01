@@ -13,6 +13,8 @@ struct DataEntryView: View {
     @State var dataField:String = ""
     @State var parseStrategy:DataParser.ParseStrategy = .lineDelimited
     
+    @FocusState var dataFieldHasFocus:Bool
+    
     var body: some View {
         NavigationStack {
            
@@ -30,7 +32,8 @@ struct DataEntryView: View {
 
                                 //Text(viewModel.availablePasteboardTypes).font(.body)
                                 TextEditor(text:$dataField).font(.body.monospaced())
-                                if dataField.isEmpty {
+                                    .focused($dataFieldHasFocus)
+                                if dataField.isEmpty && !dataFieldHasFocus {
                                     Text("enter or paste your data here").foregroundColor(Color(UIColor.systemGray5)).allowsHitTesting(false)
                                 }
                             }
