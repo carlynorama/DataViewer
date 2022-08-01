@@ -14,6 +14,12 @@
 		DA147CFE2896F8F100E587D9 /* DataViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147CFD2896F8F100E587D9 /* DataViewerTests.swift */; };
 		DA147D082896F8F100E587D9 /* DataViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D072896F8F100E587D9 /* DataViewerUITests.swift */; };
 		DA147D0A2896F8F100E587D9 /* DataViewerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D092896F8F100E587D9 /* DataViewerUITestsLaunchTests.swift */; };
+		DA147D172896F95A00E587D9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D162896F95A00E587D9 /* DataManager.swift */; };
+		DA147D192897062400E587D9 /* DataEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D182897062400E587D9 /* DataEntryView.swift */; };
+		DA147D1B2897074800E587D9 /* DisplayChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D1A2897074800E587D9 /* DisplayChartView.swift */; };
+		DA147D202897092900E587D9 /* DataHelper in Frameworks */ = {isa = PBXBuildFile; productRef = DA147D1F2897092900E587D9 /* DataHelper */; };
+		DA147D2228972DD000E587D9 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D2128972DD000E587D9 /* DataParser.swift */; };
+		DA147D262898483E00E587D9 /* EnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D252898483E00E587D9 /* EnumPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +51,12 @@
 		DA147D032896F8F100E587D9 /* DataViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA147D072896F8F100E587D9 /* DataViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewerUITests.swift; sourceTree = "<group>"; };
 		DA147D092896F8F100E587D9 /* DataViewerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DA147D162896F95A00E587D9 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		DA147D182897062400E587D9 /* DataEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntryView.swift; sourceTree = "<group>"; };
+		DA147D1A2897074800E587D9 /* DisplayChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayChartView.swift; sourceTree = "<group>"; };
+		DA147D1D2897075A00E587D9 /* DataHelper */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DataHelper; path = ../DataHelper; sourceTree = "<group>"; };
+		DA147D2128972DD000E587D9 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		DA147D252898483E00E587D9 /* EnumPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA147D202897092900E587D9 /* DataHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,10 +88,12 @@
 		DA147CDF2896F8EF00E587D9 = {
 			isa = PBXGroup;
 			children = (
+				DA147D1C2897075A00E587D9 /* Packages */,
 				DA147CEA2896F8EF00E587D9 /* DataViewer */,
 				DA147CFC2896F8F100E587D9 /* DataViewerTests */,
 				DA147D062896F8F100E587D9 /* DataViewerUITests */,
 				DA147CE92896F8EF00E587D9 /* Products */,
+				DA147D1E2897092900E587D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +112,11 @@
 			children = (
 				DA147CEB2896F8EF00E587D9 /* DataViewerApp.swift */,
 				DA147CED2896F8EF00E587D9 /* ContentView.swift */,
+				DA147D182897062400E587D9 /* DataEntryView.swift */,
+				DA147D1A2897074800E587D9 /* DisplayChartView.swift */,
+				DA147D162896F95A00E587D9 /* DataManager.swift */,
+				DA147D252898483E00E587D9 /* EnumPicker.swift */,
+				DA147D2128972DD000E587D9 /* DataParser.swift */,
 				DA147CEF2896F8F000E587D9 /* Assets.xcassets */,
 				DA147CF12896F8F000E587D9 /* DataViewer.entitlements */,
 				DA147CF22896F8F000E587D9 /* Preview Content */,
@@ -129,6 +149,21 @@
 			path = DataViewerUITests;
 			sourceTree = "<group>";
 		};
+		DA147D1C2897075A00E587D9 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				DA147D1D2897075A00E587D9 /* DataHelper */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		DA147D1E2897092900E587D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,6 +180,9 @@
 			dependencies = (
 			);
 			name = DataViewer;
+			packageProductDependencies = (
+				DA147D1F2897092900E587D9 /* DataHelper */,
+			);
 			productName = DataViewer;
 			productReference = DA147CE82896F8EF00E587D9 /* DataViewer.app */;
 			productType = "com.apple.product-type.application";
@@ -259,6 +297,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA147D1B2897074800E587D9 /* DisplayChartView.swift in Sources */,
+				DA147D262898483E00E587D9 /* EnumPicker.swift in Sources */,
+				DA147D172896F95A00E587D9 /* DataManager.swift in Sources */,
+				DA147D2228972DD000E587D9 /* DataParser.swift in Sources */,
+				DA147D192897062400E587D9 /* DataEntryView.swift in Sources */,
 				DA147CEE2896F8EF00E587D9 /* ContentView.swift in Sources */,
 				DA147CEC2896F8EF00E587D9 /* DataViewerApp.swift in Sources */,
 			);
@@ -608,6 +651,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA147D1F2897092900E587D9 /* DataHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DataHelper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA147CE02896F8EF00E587D9 /* Project object */;
 }

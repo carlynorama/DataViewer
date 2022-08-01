@@ -6,15 +6,23 @@
 //
 
 import SwiftUI
+import Charts
+
 
 struct ContentView: View {
+    @StateObject private var dataService = DataManager()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
+        HStack {
+            DataEntryView().frame(maxWidth:.greatestFiniteMagnitude)
+            
+            if dataService.hasData {
+                DisplayChartView().frame(maxWidth:.infinity)
+            } else {
+                Text("No valid data avaliable.").frame(maxWidth:.infinity)
+            }
+        }.environmentObject(dataService)
+           
     }
 }
 
