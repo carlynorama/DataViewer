@@ -15,18 +15,19 @@ extension FitStrategy:PickerSuppliable {
     }
 }
 
+
 struct DisplayView: View {
     @EnvironmentObject var dataService:DataManager
     
     var body: some View {
         VStack {
 
-            Chart(dataService.data, id: \.x) { point in
-//                LineMark(
-//                    x: .value("X", point.x),
-//                    y: .value("Y", point.y)
-//                )
-//                .interpolationMethod(.catmullRom)
+            Chart(dataService.data) { point in
+                LineMark(
+                    x: .value("X", point.x),
+                    y: .value("Y", dataService.functionGuess(point.x))
+                )
+                .interpolationMethod(.catmullRom)
                 PointMark(
                     x: .value("X", point.x),
                     y: .value("Y", point.y)

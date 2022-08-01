@@ -11,7 +11,20 @@ import DataHelper
 
 
 final class DataManager: ObservableObject {
-    @Published private(set) var data:[DataPoint] = []
+    struct MyDataType:DataPoint,Identifiable {
+        var x: Number
+        
+        var y: Number
+        
+        var point:(x: Number, y: Number) {
+            (x,y)
+        }
+        
+        var id = UUID()
+        
+    }
+    
+    @Published private(set) var data:[MyDataType] = []
     
     @Published var inputText = ""
     @Published var datatext: String?
@@ -24,12 +37,12 @@ final class DataManager: ObservableObject {
     //TODO: Throw
     func updateData(withText text:String) {
         let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: .arrayPrint)
-        data = dataHopper.sortedByX()
+        data = dataHopper.sortedByX().map { MyDataType(x: $0.x, y: $0.y) }
         hasData = !data.isEmpty
     }
     
     //Fitting Data
-    var functionGuess = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
+    @Published var functionGuess = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
     @Published var curve:FitStrategy = .linear
     
     func updateCurveFit() {
@@ -52,21 +65,21 @@ final class DataManager: ObservableObject {
     @Published private(set) var errorAnalysisMessage = "No Error Analysis Available"
     @Published private(set) var curveFitMessage = "No Curve Fit Results Available"
     
-    var minX:String {
-        data.minXPoint()?.description ?? "None Found"
-    }
-    
-    var maxX:String {
-        data.maxXPoint()?.description ?? "None Found"
-    }
-    
-    var minY:String {
-        data.minYPoint()?.description ?? "None Found"
-    }
-    
-    var maxY:String {
-        data.maxYPoint()?.description ?? "None Found"
-    }
+//    var minX:String {
+//        data.minXPoint()?.description ?? "None Found"
+//    }
+//    
+//    var maxX:String {
+//        data.maxXPoint()?.description ?? "None Found"
+//    }
+//    
+//    var minY:String {
+//        data.minYPoint()?.description ?? "None Found"
+//    }
+//    
+//    var maxY:String {
+//        data.maxYPoint()?.description ?? "None Found"
+//    }
 
     
 //    //MARK: Collecting Data From The User
