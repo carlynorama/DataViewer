@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct DisplayChartView: View {
+struct DisplayView: View {
     @EnvironmentObject var dataService:DataManager
     
     var body: some View {
@@ -28,16 +28,16 @@ struct DisplayChartView: View {
             .aspectRatio(1, contentMode: .fit)
             Group {
                 Text("\(dataService.message)")
-                Button("Update Guess", action: dataService.updateReport)
-                Text("Solve: \(dataService.myResult)")
+                Button("Update Guess", action: dataService.updateErrorAnalysis)
+                Text("\(dataService.myResult)")
             }
             
         }
     }
 }
 
-struct DisplayChartView_Previews: PreviewProvider {
+struct DisplayView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayChartView().environmentObject(DataManager())
+        DisplayView().environmentObject(DataManager())
     }
 }
