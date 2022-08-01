@@ -31,7 +31,7 @@ struct DataEntryView: View {
                                 //Text(viewModel.availablePasteboardTypes).font(.body)
                                 TextEditor(text:$dataField).font(.body.monospaced())
                                 if dataField.isEmpty {
-                                    Text("enter or paste your data here").foregroundColor(Color(UIColor.systemGray5))
+                                    Text("enter or paste your data here").foregroundColor(Color(UIColor.systemGray5)).allowsHitTesting(false)
                                 }
                             }
                             
