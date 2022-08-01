@@ -11,20 +11,20 @@ import DataHelper
 
 
 final class DataManager: ObservableObject {
-    struct MyDataType:DataPoint,Identifiable {
-        var x: Number
-        
-        var y: Number
-        
-        var point:(x: Number, y: Number) {
-            (x,y)
-        }
-        
-        var id = UUID()
-        
-    }
+//    struct MyDataType:DataPoint,Identifiable {
+//        var x: Number
+//
+//        var y: Number
+//
+//        var point:(x: Number, y: Number) {
+//            (x,y)
+//        }
+//
+//        var id = UUID()
+//
+//    }
     
-    @Published private(set) var data:[MyDataType] = []
+    @Published private(set) var data:[DataPoint] = []
     
     @Published var inputText = ""
     @Published var datatext: String?
@@ -37,7 +37,7 @@ final class DataManager: ObservableObject {
     //TODO: Throw
     func updateData(withText text:String) {
         let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: .arrayPrint)
-        data = dataHopper.sortedByX().map { MyDataType(x: $0.x, y: $0.y) }
+        data = dataHopper.sortedByX()//.map { MyDataType(x: $0.x, y: $0.y) }
         hasData = !data.isEmpty
     }
     

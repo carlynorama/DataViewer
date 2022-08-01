@@ -22,7 +22,7 @@ struct DisplayView: View {
     var body: some View {
         VStack {
 
-            Chart(dataService.data) { point in
+            Chart(dataService.data, id: \.x) { point in
                 LineMark(
                     x: .value("X", point.x),
                     y: .value("Y", dataService.functionGuess(point.x))
