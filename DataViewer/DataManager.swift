@@ -29,8 +29,15 @@ final class DataManager: ObservableObject {
     }
     
     //Fitting Data
-    let functionGuess = DataHelper.testInverseSquare//DataHelper.testQuadraticFunction
+    var functionGuess = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
     @Published var curve:FitStrategy = .linear
+    
+    func updateCurveFit() {
+        let result = DataHelper.tryFit(for: data, using: curve)
+        curveFitMessage = result.description
+        let parameters = result.values
+        functionGuess = DataHelper.generateFunction(using: curve, with: parameters)
+    }
 
     func updateErrorAnalysis() {
         errorAnalysisMessage = runErrorAnalysis(on: data, using: functionGuess)
