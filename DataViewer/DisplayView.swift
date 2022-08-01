@@ -7,6 +7,13 @@
 
 import SwiftUI
 import Charts
+import DataHelper
+
+extension FitStrategy:PickerSuppliable {
+    var menuText: String {
+        self.description
+    }
+}
 
 struct DisplayView: View {
     @EnvironmentObject var dataService:DataManager
@@ -26,10 +33,16 @@ struct DisplayView: View {
                 )
             }
             .aspectRatio(1, contentMode: .fit)
-            Group {
-                Text("\(dataService.message)")
-                Button("Update Guess", action: dataService.updateErrorAnalysis)
-                Text("\(dataService.myResult)")
+            HStack {
+                VStack {
+                    EnumPicker<FitStrategy>(value: $dataService.curve)
+                    Text("\(dataService.curveFitMessage)")
+                    Button("Update Fit", action: dataService.updateCurveFit)
+                }
+                VStack {
+                    Text("\(dataService.errorAnalysisMessage)")
+                    Button("Update Error Analysis", action: dataService.updateErrorAnalysis)
+                }
             }
             
         }
