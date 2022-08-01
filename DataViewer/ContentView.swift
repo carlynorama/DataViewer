@@ -17,7 +17,7 @@ struct ContentView: View {
             DataEntryView().frame(maxWidth:.greatestFiniteMagnitude)
             
             if dataService.hasData {
-                DisplayChartView().frame(maxWidth:.infinity)
+                DisplayView().frame(maxWidth:.infinity)
             } else {
                 Text("No valid data avaliable.").frame(maxWidth:.infinity)
             }
