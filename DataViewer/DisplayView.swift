@@ -30,7 +30,7 @@ struct DisplayView: View {
             Chart(dataService.data, id: \.x) { point in
                 LineMark(
                     x: .value("X", point.x),
-                    y: .value("Y", dataService.functionGuess(point.x))
+                    y: .value("Y", dataService.fitFuntion(point.x))
                 )
                 .interpolationMethod(.catmullRom)
                 PointMark(

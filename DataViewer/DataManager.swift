@@ -52,26 +52,40 @@ final class DataManager: ObservableObject {
 
     }
     
-    //Fitting Data
-    @Published var functionGuess = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
+    //MARK: Fitting Data
+    @Published var fitFuntion = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
     @Published var curve:FitStrategy = .linear
+    @Published var fitResult:(description:String, values:Dictionary<String, Number>) = ("starting fit 2x+4", ["m":2, "b":4])
     
     func updateCurveFit() {
-        let result = DataHelper.tryFit(for: data, using: curve)
-        curveFitMessage = result.description
-        print("updateCurveFit: try fit result \(result)")
-        let parameters = result.values
-        functionGuess = DataHelper.generateFunction(using: curve, with: parameters)
+        fitResult = DataHelper.tryFit(for: data, using: curve)
+        curveFitMessage = fitResult.description
+        //print("updateCurveFit: try fit result \(fitResult)")
+        fitFuntion = DataHelper.generateFunction(using: curve, with: fitResult.values)
         updateErrorAnalysis()
     }
 
     func updateErrorAnalysis() {
-        errorAnalysisMessage = runErrorAnalysis(on: data, using: functionGuess)
-        
+        errorAnalysisMessage = runErrorAnalysis(on: data, using: fitFuntion)
     }
+    
     private func runErrorAnalysis(on data:[DataPoint], using function:(Number)->Number) -> String {
         return DataHelper.testFit(data, to:function).description
     }
+    
+    //MARK: Nudge Fit
+    @Published var nudgedFunctionCurve:FitStrategy = .linear
+    @Published var nudgedFunctionParameters:Dictionary<String, Number> = ["m":2, "b":4]
+                                                
+    var nudgeFunction:(Number)->(Number) {
+        DataHelper.generateFunction(using: nudgedFunctionCurve, with: nudgedFunctionParameters)
+    }
+    
+    func updateNundgedWithFit() {
+        nudgedFunctionCurve = curve
+        nudgedFunctionParameters = fitResult.values
+    }
+    
     
     
     //MARK: Display Text
