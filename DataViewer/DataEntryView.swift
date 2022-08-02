@@ -32,7 +32,11 @@ struct DataEntryView: View {
             Form {
                 ScrollView {
                     EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
-                    TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical)
+                    TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical).onSubmit {
+                        dataField.append("\n")
+                        dataService.updateData(withText: dataField)
+                        dataFieldHasFocus = true
+                    }
                         .lineLimit(10...)
                         .font(.body.monospaced())
                         .focused($dataFieldHasFocus)
