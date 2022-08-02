@@ -51,7 +51,7 @@ struct DataParser {
         return nil
     }
     
-    enum ParseStrategy {
+    enum ParseStrategy:CaseIterable {
         case lineDelimited
         case arrayPrint
     }
