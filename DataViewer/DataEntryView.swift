@@ -26,20 +26,30 @@ struct DataEntryView: View {
     @State var dataField:String = ""
     @FocusState var dataFieldHasFocus:Bool
     
+    @State var returnSubmit:Bool = true
+    
     var body: some View {
         NavigationStack {
             
             Form {
                 ScrollView {
-                    EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
-                    TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical).onSubmit {
-                        dataField.append("\n")
-                        dataService.updateData(withText: dataField)
-                        dataFieldHasFocus = true
-                    }
+                    VStack {
+                        EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
+                        
+                        Toggle("Return submit", isOn: $returnSubmit)
+                        
+                        
+                        TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical).onSubmit {
+                            if returnSubmit {
+                                dataField.append("\n")
+                                dataService.updateData(withText: dataField)
+                                dataFieldHasFocus = true
+                            }
+                        }
                         .lineLimit(10...)
                         .font(.body.monospaced())
                         .focused($dataFieldHasFocus)
+                    }.padding()
                 }
             }.toolbar {
                 //Button("Paste", action: dataService.paste) //is not working
