@@ -7,13 +7,6 @@
 
 import SwiftUI
 import Charts
-import DataHelper
-
-extension FitStrategy:PickerSuppliable {
-    var menuText: String {
-        self.description
-    }
-}
 
 
 struct DisplayView: View {
@@ -21,6 +14,18 @@ struct DisplayView: View {
     
     var body: some View {
         VStack {
+            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("Curve Fit:")
+                    Text("\(dataService.curveFitMessage)")
+                }
+                
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("Error Analysis:")
+                    Text("\(dataService.errorAnalysisMessage)")
+                }
+            }
+            
 
             Chart(dataService.data, id: \.x) { point in
                 LineMark(
@@ -34,17 +39,7 @@ struct DisplayView: View {
                 )
             }
             .aspectRatio(1, contentMode: .fit)
-            HStack {
-                VStack {
-                    EnumPicker<FitStrategy>(value: $dataService.curve)
-                    Text("\(dataService.curveFitMessage)")
-                    Button("Update Fit", action: dataService.updateCurveFit)
-                }
-                VStack {
-                    Text("\(dataService.errorAnalysisMessage)")
-                    Button("Update Error Analysis", action: dataService.updateErrorAnalysis)
-                }
-            }
+
             
         }
     }
