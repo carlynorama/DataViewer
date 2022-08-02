@@ -40,9 +40,16 @@ final class DataManager: ObservableObject {
     func updateData(withText text:String) {
         let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: parseStrategy)
         data = dataHopper.sortedByX()//.map { MyDataType(x: $0.x, y: $0.y) }
-        hasData = !data.isEmpty
-        updateCurveFit()
-        updateErrorAnalysis()
+        print(data)
+        if data.count >= 1 {
+            hasData = !data.isEmpty
+        }
+        
+        if data.count >= 2 {
+            updateCurveFit()
+            updateErrorAnalysis()
+        }
+
     }
     
     //Fitting Data
