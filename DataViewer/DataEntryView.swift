@@ -7,52 +7,47 @@
 
 import SwiftUI
 
+extension DataParser.ParseStrategy:PickerSuppliable {
+    
+    var menuText: String {
+        switch self {
+            
+        case .lineDelimited:
+            return "Line Delimited"
+        case .arrayPrint:
+            return "Array of Tuples"
+        }
+    }
+}
+
 struct DataEntryView: View {
     @EnvironmentObject var dataService:DataManager
     
     @State var dataField:String = ""
-    @State var parseStrategy:DataParser.ParseStrategy = .lineDelimited
-    
     @FocusState var dataFieldHasFocus:Bool
     
     var body: some View {
         NavigationStack {
-           
-                VStack {
-                    Form {
-                        Picker("Parse Strategy", selection: $parseStrategy) {
-                            Text("Line Delimited").tag(DataParser.ParseStrategy.lineDelimited)
-                            Text("Array of Tuples").tag(DataParser.ParseStrategy.arrayPrint)
-                        }.pickerStyle(.segmented)
-                        
-                    ScrollView {
-                        
-                        VStack(alignment: .leading, spacing: 12) {
-                            ZStack(alignment:.topLeading) {
-
-                                //Text(viewModel.availablePasteboardTypes).font(.body)
-                                TextEditor(text:$dataField).font(.body.monospaced())
-                                    .focused($dataFieldHasFocus)
-                                if dataField.isEmpty && !dataFieldHasFocus {
-                                    Text("enter or paste your data here").foregroundColor(Color(UIColor.systemGray5)).allowsHitTesting(false)
-                                }
-                            }
-                            
-                        }
-                    }
-                    .padding()
-
-                    }
-                }.toolbar {
-                    //Button("Paste", action: dataService.paste) //is not working
-                    Button("Submit") {
-                        dataService.updateData(withText: dataField)
-                    }
-            }
             
+            Form {
+                ScrollView {
+                    EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
+                    TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical)
+                        .lineLimit(10...)
+                        .font(.body.monospaced())
+                        .focused($dataFieldHasFocus)
+                }
+            }.toolbar {
+                //Button("Paste", action: dataService.paste) //is not working
+                Button("Submit") {
+                    dataService.updateData(withText: dataField)
+                }
+            }
         }
+        
     }
 }
+
 
 struct DataEntryView_Previews: PreviewProvider {
     static var previews: some View {

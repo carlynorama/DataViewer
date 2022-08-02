@@ -34,9 +34,11 @@ final class DataManager: ObservableObject {
     //MARK: Loading Data
     //@Published private(set) var testData = DataHelper.generateTestData(using: DataHelper.testInverseSquare, for: DataHelper.testValues).sortedByX()
     
+    @Published var parseStrategy:DataParser.ParseStrategy = .lineDelimited
+    
     //TODO: Throw
     func updateData(withText text:String) {
-        let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: .arrayPrint)
+        let dataHopper:[DataPoint] = DataParser().parseData(from: text, withStrategy: parseStrategy)
         data = dataHopper.sortedByX()//.map { MyDataType(x: $0.x, y: $0.y) }
         hasData = !data.isEmpty
         updateCurveFit()
