@@ -17,11 +17,6 @@ Requires:
     * Current State. Wouldn't exactly call it "released".  
 
 
-The curse of the readme
-
-
-
-
 
 [swift-image]:https://img.shields.io/badge/swift-5.7-orange.svg
 [swift-url]: https://swift.org/
