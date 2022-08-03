@@ -7,8 +7,8 @@ This project is a simple data viewer and curve fitter currently intended for sma
 ## Installation
 
 Requires:
-    X-Code 14 or later
-    [DataHelper package](https://github.com/carlynorama/DataHelper)
+   -  X-Code 14 or later
+   -  [DataHelper package](https://github.com/carlynorama/DataHelper)
     
 
 ## Release History
