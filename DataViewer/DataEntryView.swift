@@ -66,13 +66,14 @@ struct DataEntryView: View {
                     }
                     
                     Section {
-                        VStack(alignment:.leading) {
+                        
                             EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.curve)
                             Button("Run Fit", action: dataService.updateCurveFit)
-                        }.padding(5)
+                       
                     }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                        
                     Section {
-                        Button("Load Curve To Edit", action: dataService.updateNundgedWithFit)
+                        Button("Load Fit Curve into Nudge Curve", action: dataService.updateNundgedWithFit)
                         EnumPicker<CurveProfile>(label: "Nudge Curve", value: $dataService.nudgedFunctionCurve)
                         Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
                             if dataService.nudgedFunctionParameters.count >= 1 {
