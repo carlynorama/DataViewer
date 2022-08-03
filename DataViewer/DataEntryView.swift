@@ -67,8 +67,8 @@ struct DataEntryView: View {
                     
                     Section {
                         
-                            EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.curve)
-                            Button("Run Fit", action: dataService.updateCurveFit)
+                            EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.fitCurve)
+                            //Button("Run Fit", action: dataService.updateCurveFit)
                        
                     }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
                         

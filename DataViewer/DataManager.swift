@@ -13,8 +13,14 @@ import DataHelper
 final class DataManager: ObservableObject {
     
     let storage = UserDefaults.standard
+    
     let datasStringKey = "lastText"
-
+    let parseStrategyKey = "parseStrategy"
+    
+    let fitStrategyKey = "fitStrategy"
+    let nudgeStrategyKey = "nudgeStrategy"
+    let nudgeValuesKey = "nudgeValues"
+    
     
     @Published private(set) var data:[DataPoint] = []
     
@@ -58,6 +64,31 @@ final class DataManager: ObservableObject {
         return false
     }
     
+    func loadSettings() {
+        if let storedParseStrategy = storage.object(forKey: parseStrategyKey) as? DataParser.ParseStrategy {
+            parseStrategy = storedParseStrategy
+        }
+        
+        if let storedFitStrategy = storage.object(forKey: fitStrategyKey) as? CurveProfile {
+            fitCurve = storedFitStrategy
+        }
+        
+        if let storedNudgeStrategy = storage.object(forKey: nudgeStrategyKey) as? CurveProfile {
+            nudgedFunctionCurve = storedNudgeStrategy
+        }
+        
+        if let storedNudgeValues = storage.object(forKey: nudgeValuesKey) as? [Number] {
+            nudgedFunctionParameters = storedNudgeValues
+        }
+    }
+    
+    func saveSettings() {
+        storage.set(parseStrategy, forKey: parseStrategyKey)
+        storage.set(fitCurve, forKey: fitStrategyKey)
+        storage.set(nudgedFunctionCurve, forKey: nudgeStrategyKey)
+        storage.set(nudgedFunctionParameters,forKey: nudgeValuesKey)
+    }
+    
     func clearData() {
         data = []
         storage.removeObject(forKey: datasStringKey)
@@ -68,14 +99,18 @@ final class DataManager: ObservableObject {
     
     //MARK: Fitting Data
     @Published var fitFuntion = DataHelper.generateFunction(using: CurveProfile.linear, with: ["m":2, "b":4])
-    @Published var curve:CurveProfile = .linear
+    @Published var fitCurve:CurveProfile = .linear {
+        didSet {
+            updateCurveFit()
+        }
+    }
     @Published var fitResult:(description:String, values:Dictionary<String, Number>) = ("starting fit 2x+4", ["m":2, "b":4])
     
     func updateCurveFit() {
-        fitResult = DataHelper.tryFit(for: data, using: curve)
+        fitResult = DataHelper.tryFit(for: data, using: fitCurve)
         curveFitMessage = fitResult.description
         //print("updateCurveFit: try fit result \(fitResult)")
-        fitFuntion = DataHelper.generateFunction(using: curve, with: fitResult.values)
+        fitFuntion = DataHelper.generateFunction(using: fitCurve, with: fitResult.values)
         updateErrorAnalysis()
     }
 
@@ -91,16 +126,23 @@ final class DataManager: ObservableObject {
     }
     
     //MARK: Nudged Fit Curve
-    @Published var nudgedFunctionCurve:CurveProfile = .linear
+    @Published var nudgedFunctionCurve:CurveProfile = .linear {
+        didSet {
+            hasNudge = true
+            if nudgedFunctionCurve == .quadratic && nudgedFunctionParameters.count < 3 {
+                nudgedFunctionParameters.append(0)
+            }
+        }
+    }
     @Published var nudgedFunctionParameters:[Number] = [2, 4]
     @Published var hasNudge:Bool = false
                                                 
     var nudgeFunction:(Number)->(Number) {
-        DataHelper.generateFunction(using: nudgedFunctionCurve, parameterValues: nudgedFunctionParameters)
+        return DataHelper.generateFunction(using: nudgedFunctionCurve, parameterValues: nudgedFunctionParameters)
     }
     
     func updateNundgedWithFit() {
-        nudgedFunctionCurve = curve
+        nudgedFunctionCurve = fitCurve
         nudgedFunctionParameters = CurveProfile.extractParameterValues(parameters: fitResult.values)
         hasNudge = true
     }

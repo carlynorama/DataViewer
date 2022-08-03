@@ -46,6 +46,7 @@ struct DisplayView: View {
                         x: .value("X", point.x),
                         y: .value("Y", dataService.fitFuntion(point.x))
                     )
+                    .foregroundStyle(.orange)
                     .interpolationMethod(.catmullRom)
                     
                     PointMark(
@@ -53,6 +54,8 @@ struct DisplayView: View {
                         y: .value("Y", point.y)
                     )
                 }
+                
+
             }
             .aspectRatio(1, contentMode: .fit)
 
