@@ -79,51 +79,54 @@ struct DataEntryView: View {
                     
                     Section {
                         Button("Load Fit Curve into Nudge Curve", action: dataService.updateNundgedWithFit)
-                        EnumPicker<CurveProfile>(label: "Nudge Curve", value: $dataService.nudgedFunctionCurve)
-                        Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
-                            if dataService.nudgedFunctionParameters.count >= 1 {
-                                GridRow {
-                                    Text("Paramter 1")
-                                    TextField("Paramter 1", value: $dataService.nudgedFunctionParameters[0], format: .number)
-                                        .focused($np1Focused)
-                                        .onChange(of: np1Focused) { isFocused in
-                                            if !isFocused {
-                                                dataService.saveSettings()
-                                                //print("1")
-                                            }
-                                        }
-                                }
-                                
-                            }
-                            if dataService.nudgedFunctionParameters.count >= 2 {
-                                GridRow {
-                                    Text("Paramter 2")
-                                    TextField("Paramter 2", value: $dataService.nudgedFunctionParameters[1], format: .number)
-                                        .focused($np2Focused)
-                                        .onChange(of: np2Focused) { isFocused in
-                                            if !isFocused {
-                                                dataService.saveSettings()
-                                                //print("2")
-                                            }
-                                        }
-                                }
-                                
-                            }
-                            if dataService.nudgedFunctionParameters.count >= 3 {
-                                GridRow {
-                                    Text("Paramter 3")
-                                    TextField("Paramter 3", value: $dataService.nudgedFunctionParameters[2], format: .number)
-                                        .focused($np3Focused)
-                                        .onChange(of: np3Focused) { isFocused in
-                                            if !isFocused {
-                                                dataService.saveSettings()
-                                                //print("3")
-                                            }
-                                        }
-                                }
-                            }
+                        Button("Clear Nudge Curve", action: dataService.clearNudge)
+                        Group {
+                            EnumPicker<CurveProfile>(label: "Nudge Curve", value: $dataService.nudgedFunctionCurve)
                             
-                        }
+                            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                                if dataService.nudgedFunctionParameters.count >= 1 {
+                                    GridRow {
+                                        Text("Paramter 1")
+                                        TextField("Paramter 1", value: $dataService.nudgedFunctionParameters[0], format: .number)
+                                            .focused($np1Focused)
+                                            .onChange(of: np1Focused) { isFocused in
+                                                if !isFocused {
+                                                    dataService.saveSettings()
+                                                    //print("1")
+                                                }
+                                            }
+                                    }
+                                    
+                                }
+                                if dataService.nudgedFunctionParameters.count >= 2 {
+                                    GridRow {
+                                        Text("Paramter 2")
+                                        TextField("Paramter 2", value: $dataService.nudgedFunctionParameters[1], format: .number)
+                                            .focused($np2Focused)
+                                            .onChange(of: np2Focused) { isFocused in
+                                                if !isFocused {
+                                                    dataService.saveSettings()
+                                                    //print("2")
+                                                }
+                                            }
+                                    }
+                                    
+                                }
+                                if dataService.nudgedFunctionParameters.count >= 3 {
+                                    GridRow {
+                                        Text("Paramter 3")
+                                        TextField("Paramter 3", value: $dataService.nudgedFunctionParameters[2], format: .number)
+                                            .focused($np3Focused)
+                                            .onChange(of: np3Focused) { isFocused in
+                                                if !isFocused {
+                                                    dataService.saveSettings()
+                                                    //print("3")
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }.opacity((dataService.hasNudge) ? 1.0 : 0.5)
                     }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
                     Section {
                         Button("Run Error Analysis", action: dataService.updateErrorAnalysis)

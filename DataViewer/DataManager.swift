@@ -9,9 +9,6 @@ import Foundation
 import SwiftUI
 import DataHelper
 
-
-
-
 final class DataManager: ObservableObject {
     
     let storage = UserDefaults.standard
@@ -109,32 +106,36 @@ final class DataManager: ObservableObject {
         //print("DataViewer.saveSettings")
     }
     
-    func clearDataSettings() {
-        //storage.removeObject(forKey: parseStrategyKey)
-        storage.removeObject(forKey: fitStrategyKey)
-        storage.removeObject(forKey: nudgeStrategyKey)
-        storage.removeObject(forKey: nudgeValuesKey)
+    func reset() {
+        clearData()
+        clearFit()
+        clearNudge()
     }
     
-    func reset() {
+    func clearData() {
         hasData = false
         data = []
         storage.removeObject(forKey: datasStringKey)
         datatext = ""
         inputText = ""
- 
-        clearDataSettings()
-        
-        nudgedFunctionCurve = .linear
-        nudgedFunctionParameters = [2,4]
-        hasNudge = false
-        
+    }
+    
+    func clearFit() {
+        storage.removeObject(forKey: fitStrategyKey)
         fitCurve = .linear
         fitFuntion = DataHelper.generateFunction(using: CurveProfile.linear, with: ["m":2, "b":4])
         
         errorAnalysisMessage = "No Error Analysis Available"
         curveFitMessage = "No Curve Fit Results Available"
+    }
+    
+    func clearNudge() {
+        storage.removeObject(forKey: nudgeStrategyKey)
+        storage.removeObject(forKey: nudgeValuesKey)
         nudgedErrorAnalysisMessage = "No Error Analysis Available"
+        nudgedFunctionCurve = .linear
+        nudgedFunctionParameters = [2,4]
+        hasNudge = false
     }
     
     //MARK: Fitting Data
@@ -176,12 +177,17 @@ final class DataManager: ObservableObject {
             }
         }
     }
-    @Published var nudgedFunctionParameters:[Number] = [2, 4]
+    @Published var nudgedFunctionParameters:[Number] = [2, 4] {
+        didSet {
+            hasNudge = true
+        }
+    }
     @Published var hasNudge:Bool = false
                                                 
     var nudgeFunction:(Number)->(Number) {
         return DataHelper.generateFunction(using: nudgedFunctionCurve, parameterValues: nudgedFunctionParameters)
     }
+    
     
     func updateNundgedWithFit() {
         nudgedFunctionCurve = fitCurve
@@ -196,6 +202,49 @@ final class DataManager: ObservableObject {
     @Published private(set) var curveFitMessage = "No Curve Fit Results Available"
     
     @Published private(set) var nudgedErrorAnalysisMessage = "No Error Analysis Available"
+    
+    
+    //MARK: Display Points
+    
+    //Something is super weird with Charts.
+    
+//    struct ChartPoint:Identifiable {
+//        let x:Number
+//        let y:Number
+//        let id = UUID()
+//    }
+
+    
+    //Using the .x as the id causes problems
+    
+//    func makeFitChartPoints() -> [ChartPoint] {
+//        var charatable:[ChartPoint] = []
+//        let split = data.unzipDataPoints()
+//        let result = DataHelper.generateTestData(for: split.inputs, using: fitFuntion)
+//        for point in result {
+//            charatable.append(ChartPoint(x: point.x, y: point.y))
+//        }
+//        return charatable//.sorted{ $0.x < $1.x }
+//    }
+//
+//    func makeNudgeChartPoints() -> [ChartPoint] {
+//        var charatable:[ChartPoint] = []
+//        let split = data.unzipDataPoints()
+//        let result = DataHelper.generateTestData(for: split.inputs, using: nudgeFunction)
+//        for point in result {
+//            charatable.append(ChartPoint(x: point.x, y: point.y))
+//        }
+//        return charatable//.sorted{ $0.x < $1.x }
+//    }
+//
+//    func makeChartPoints() -> [ChartPoint] {
+//        var charatable:[ChartPoint] = []
+//        for point in data {
+//            charatable.append(ChartPoint(x: point.x, y: point.y))
+//        }
+//        return charatable//.sorted{ $0.x < $1.x }
+//    }
+//
     
 //    var minX:String {
 //        data.minXPoint()?.description ?? "None Found"
