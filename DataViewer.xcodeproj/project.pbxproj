@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DA100193289B362400E5E7FE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DA100193289B362400E5E7FE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = DataViewer/README.md; sourceTree = "<group>"; };
 		DA147CE82896F8EF00E587D9 /* DataViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA147CEB2896F8EF00E587D9 /* DataViewerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewerApp.swift; sourceTree = "<group>"; };
 		DA147CED2896F8EF00E587D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -90,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				DA147D1C2897075A00E587D9 /* Packages */,
+				DA100193289B362400E5E7FE /* README.md */,
 				DA147CEA2896F8EF00E587D9 /* DataViewer */,
 				DA147CFC2896F8F100E587D9 /* DataViewerTests */,
 				DA147D062896F8F100E587D9 /* DataViewerUITests */,
@@ -118,7 +119,6 @@
 				DACBFAEB289B0C2800515392 /* ChartTests.swift */,
 				DA147D162896F95A00E587D9 /* DataManager.swift */,
 				DA147D252898483E00E587D9 /* EnumPicker.swift */,
-				DA100193289B362400E5E7FE /* README.md */,
 				DA147CEF2896F8F000E587D9 /* Assets.xcassets */,
 				DA147CF12896F8F000E587D9 /* DataViewer.entitlements */,
 				DA147CF22896F8F000E587D9 /* Preview Content */,
