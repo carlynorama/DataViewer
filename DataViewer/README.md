@@ -1,6 +1,6 @@
 #  DataViewer
 
-This project is a simple data viewer / curve fitter currently intended for small datasets in house. 
+This project is a simple data viewer and curve fitter currently intended for small datasets in house. 
 
 [![Swift Version][swift-image]][swift-url]
 
