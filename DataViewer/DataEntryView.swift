@@ -29,10 +29,15 @@ extension CurveProfile:PickerSuppliable {
 }
 
 struct DataEntryView: View {
+    
     @EnvironmentObject var dataService:DataManager
     
     @State var dataField:String = ""
     @FocusState var dataFieldHasFocus:Bool
+    
+    @FocusState private var np1Focused: Bool
+    @FocusState private var np2Focused: Bool
+    @FocusState private var np3Focused: Bool
     
     @State var returnSubmit:Bool = true
     
@@ -67,11 +72,11 @@ struct DataEntryView: View {
                     
                     Section {
                         
-                            EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.fitCurve)
-                            //Button("Run Fit", action: dataService.updateCurveFit)
-                       
-                    }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                        EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.fitCurve)
+                        //Button("Run Fit", action: dataService.updateCurveFit)
                         
+                    }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                    
                     Section {
                         Button("Load Fit Curve into Nudge Curve", action: dataService.updateNundgedWithFit)
                         EnumPicker<CurveProfile>(label: "Nudge Curve", value: $dataService.nudgedFunctionCurve)
@@ -80,18 +85,41 @@ struct DataEntryView: View {
                                 GridRow {
                                     Text("Paramter 1")
                                     TextField("Paramter 1", value: $dataService.nudgedFunctionParameters[0], format: .number)
+                                        .focused($np1Focused)
+                                        .onChange(of: np1Focused) { isFocused in
+                                            if !isFocused {
+                                                dataService.saveSettings()
+                                                print("1")
+                                            }
+                                        }
                                 }
+                                
                             }
                             if dataService.nudgedFunctionParameters.count >= 2 {
                                 GridRow {
                                     Text("Paramter 2")
                                     TextField("Paramter 2", value: $dataService.nudgedFunctionParameters[1], format: .number)
+                                        .focused($np2Focused)
+                                        .onChange(of: np2Focused) { isFocused in
+                                            if !isFocused {
+                                                dataService.saveSettings()
+                                                print("2")
+                                            }
+                                        }
                                 }
+                                
                             }
                             if dataService.nudgedFunctionParameters.count >= 3 {
                                 GridRow {
                                     Text("Paramter 3")
                                     TextField("Paramter 3", value: $dataService.nudgedFunctionParameters[2], format: .number)
+                                        .focused($np3Focused)
+                                        .onChange(of: np3Focused) { isFocused in
+                                            if !isFocused {
+                                                dataService.saveSettings()
+                                                print("3")
+                                            }
+                                        }
                                 }
                             }
                             
@@ -103,7 +131,8 @@ struct DataEntryView: View {
                     
                 }.padding()
                 
-            }.toolbar {
+            }
+            .toolbar {
                 //Button("Paste", action: dataService.paste) //is not working
                 Button("Clear Data") {
                     clearData()
@@ -113,6 +142,11 @@ struct DataEntryView: View {
                 }
             }
         }.onAppear(perform: loadTextFromService)
+            .onChange(of: dataService.nudgedFunctionCurve) { _ in
+                dataService.saveSettings()
+            }
+        
+        
         
     }
     

@@ -23,8 +23,7 @@ struct ContentView: View {
             }
         }.environmentObject(dataService)
             .onAppear(perform: dataService.loadStoredData)
-//            .onAppear(perform: dataService.loadSettings)
-//            .onDisappear(perform: dataService.saveSettings)
+            .onAppear(perform: dataService.loadSettings)
            
     }
 }

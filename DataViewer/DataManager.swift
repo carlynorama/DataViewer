@@ -10,6 +10,8 @@ import SwiftUI
 import DataHelper
 
 
+
+
 final class DataManager: ObservableObject {
     
     let storage = UserDefaults.standard
@@ -64,29 +66,42 @@ final class DataManager: ObservableObject {
         return false
     }
     
+    func loadCurveForKey(_ string:String) -> CurveProfile? {
+        if let storedString = storage.string(forKey: string)  {
+            if let savedStrategy = CurveProfile(rawValue: storedString) {
+                return savedStrategy
+            }
+        }
+        return nil
+    }
+    
     func loadSettings() {
-        if let storedParseStrategy = storage.object(forKey: parseStrategyKey) as? DataParser.ParseStrategy {
-            parseStrategy = storedParseStrategy
+        if let storedString = storage.string(forKey: parseStrategyKey)  {
+            if let savedStrategy = DataParser.ParseStrategy(rawValue: storedString) {
+                parseStrategy = savedStrategy
+            }
         }
         
-        if let storedFitStrategy = storage.object(forKey: fitStrategyKey) as? CurveProfile {
+        if let storedFitStrategy = loadCurveForKey(fitStrategyKey) {
             fitCurve = storedFitStrategy
         }
         
-        if let storedNudgeStrategy = storage.object(forKey: nudgeStrategyKey) as? CurveProfile {
+        if let storedNudgeStrategy = loadCurveForKey(nudgeStrategyKey) {
             nudgedFunctionCurve = storedNudgeStrategy
         }
         
+        
         if let storedNudgeValues = storage.object(forKey: nudgeValuesKey) as? [Number] {
-            nudgedFunctionParameters = storedNudgeValues
+           nudgedFunctionParameters = storedNudgeValues
         }
     }
     
     func saveSettings() {
-        storage.set(parseStrategy, forKey: parseStrategyKey)
-        storage.set(fitCurve, forKey: fitStrategyKey)
-        storage.set(nudgedFunctionCurve, forKey: nudgeStrategyKey)
+        storage.set(parseStrategy.rawValue, forKey: parseStrategyKey)
+        storage.set(fitCurve.rawValue, forKey: fitStrategyKey)
+        storage.set(nudgedFunctionCurve.rawValue, forKey: nudgeStrategyKey)
         storage.set(nudgedFunctionParameters,forKey: nudgeValuesKey)
+        print("DataViewer.saveSettings")
     }
     
     func clearData() {
