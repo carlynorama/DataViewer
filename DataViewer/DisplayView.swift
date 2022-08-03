@@ -28,25 +28,31 @@ struct DisplayView: View {
             }
             
 
-            Chart(dataService.data, id: \.x) { point in
-                if dataService.hasNudge {
-                    LineMark(
-                        x: .value("X", point.x),
-                        y: .value("Y", dataService.nudgeFunction(point.x))
-                    )
-                    .interpolationMethod(.catmullRom)
-                    .foregroundStyle(.purple)
-                } else {
+            Chart {
+                ForEach(dataService.data, id: \.x) { point in
+                    if dataService.hasNudge {
+                        LineMark(
+                            x: .value("X", point.x),
+                            y: .value("Y", dataService.nudgeFunction(point.x))
+                        )
+                        .interpolationMethod(.catmullRom)
+                        .foregroundStyle(.purple)
+                    }
+                }
+                
+                ForEach(dataService.data, id: \.x) { point in
+                    
                     LineMark(
                         x: .value("X", point.x),
                         y: .value("Y", dataService.fitFuntion(point.x))
                     )
                     .interpolationMethod(.catmullRom)
+                    
+                    PointMark(
+                        x: .value("X", point.x),
+                        y: .value("Y", point.y)
+                    )
                 }
-                PointMark(
-                    x: .value("X", point.x),
-                    y: .value("Y", point.y)
-                )
             }
             .aspectRatio(1, contentMode: .fit)
 

@@ -105,12 +105,27 @@ struct DataEntryView: View {
                 
             }.toolbar {
                 //Button("Paste", action: dataService.paste) //is not working
+                Button("Clear Data") {
+                    clearData()
+                }
                 Button("Submit") {
                     dataService.updateData(withText: dataField)
                 }
             }
-        }
+        }.onAppear(perform: loadTextFromService)
         
+    }
+    
+    func loadTextFromService() {
+        dataField = dataService.datatext ?? ""
+    }
+    
+    func clearData() {
+        dataField = "" //prevents visual blip
+        dataService.clearData()
+        //print(("DataEntryView.clearData: \(dataService.datatext)"))
+        //Confirms that dataService.datatext is empty.
+        loadTextFromService()
     }
 }
 

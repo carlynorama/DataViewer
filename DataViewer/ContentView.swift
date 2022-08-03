@@ -22,6 +22,7 @@ struct ContentView: View {
                 Text("No valid data avaliable.").frame(maxWidth:.infinity)
             }
         }.environmentObject(dataService)
+            .onAppear(perform: dataService.loadStoredData)
            
     }
 }

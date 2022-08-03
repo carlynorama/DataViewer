@@ -11,18 +11,10 @@ import DataHelper
 
 
 final class DataManager: ObservableObject {
-//    struct MyDataType:DataPoint,Identifiable {
-//        var x: Number
-//
-//        var y: Number
-//
-//        var point:(x: Number, y: Number) {
-//            (x,y)
-//        }
-//
-//        var id = UUID()
-//
-//    }
+    
+    let storage = UserDefaults.standard
+    let datasStringKey = "lastText"
+
     
     @Published private(set) var data:[DataPoint] = []
     
@@ -49,7 +41,29 @@ final class DataManager: ObservableObject {
             updateCurveFit()
             updateErrorAnalysis()
         }
-
+        
+        storage.set(text, forKey: datasStringKey)
+    }
+    
+    func loadStoredData() {
+        let _ = loadStoredDataWithConfirmation()
+    }
+    
+    func loadStoredDataWithConfirmation() -> Bool {
+        if let storedDataString = storage.object(forKey: datasStringKey) as? String {
+            updateData(withText: storedDataString)
+            datatext = storedDataString
+            return true
+        }
+        return false
+    }
+    
+    func clearData() {
+        data = []
+        storage.removeObject(forKey: datasStringKey)
+        datatext = ""
+        inputText = ""
+        hasData = false
     }
     
     //MARK: Fitting Data
