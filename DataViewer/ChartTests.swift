@@ -14,10 +14,10 @@ struct ChartTests: View {
         var profit: Double
     }
 
-    static func months() -> [Date] {
+    static func months(forYear year:Int) -> [Date] {
         var days:[Date] = []
         var dateComponets = DateComponents()
-        let year = Calendar.current.component(.year, from: Date())
+        //let year = Calendar.current.component(.year, from: Date())
         dateComponets.year = year
         dateComponets.day = 1
         for i in 1...12 {
@@ -26,30 +26,32 @@ struct ChartTests: View {
                 days.append(date)
             }
         }
+        return days
     }
     
-    static func dataBuilder() -> [ProfitOverTime]{
+    static func dataBuilder(forYear year:Int) -> [ProfitOverTime]{
         var data:[ProfitOverTime] = []
-        for month in months() {
+        for month in months(forYear: year) {
             let new = ProfitOverTime(date: month, profit: Double.random(in: 200...600))
             data.append(new)
         }
         return data
     }
     
-    let departmentAProfit: [ProfitOverTime] = Self.dataBuilder()
-    let departmentBProfit: [ProfitOverTime] = Self.dataBuilder()
+    let departmentAProfit: [ProfitOverTime] = Self.dataBuilder(forYear: 2021)
+    let departmentBProfit: [ProfitOverTime] = Self.dataBuilder(forYear: 2021)
 
     var body: some View {
         Chart {
-            ForEach(departmentAProfit) {
+            ForEach(departmentAProfit, id: \.date) {
                 LineMark(
                     x: .value("Date", $0.date),
                     y: .value("Profit A", $0.profit)
                 )
                 .foregroundStyle(.blue)
             }
-            ForEach(departmentBProfit) {
+            
+            ForEach(departmentBProfit, id: \.date) {
                 LineMark(
                     x: .value("Date", $0.date),
                     y: .value("Profit B", $0.profit)
