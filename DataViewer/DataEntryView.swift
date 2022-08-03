@@ -22,7 +22,7 @@ extension DataParser.ParseStrategy:PickerSuppliable {
 }
 
 extension CurveProfile:PickerSuppliable {
-    static var labelText: String = "Fit Strategy"
+    static var labelText: String = "Curve Type"
     var menuText: String {
         self.description
     }
@@ -46,73 +46,61 @@ struct DataEntryView: View {
             
             Form {
                 
+                Section {
+                    VStack {
+                        EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
+                        
+                        Toggle("Return submit", isOn: $returnSubmit)
+                        
+                        
+                        TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical).onSubmit {
+                            if returnSubmit {
+                                dataService.updateData(withText: dataField)
+                            }
+                            dataField.append("\n")
+                            dataFieldHasFocus = true
+                        }
+                        .lineLimit(10...)
+                        .font(.body.monospaced())
+                        .focused($dataFieldHasFocus)
+                    }
+                    
                     Section {
-                        VStack {
-                            EnumPicker(value: $dataService.parseStrategy).pickerStyle(.segmented)
-                            
-                            Toggle("Return submit", isOn: $returnSubmit)
-                            
-                            
-                            TextField("Datapoint entry", text: $dataField, prompt: Text("enter or paste your data here"), axis: .vertical).onSubmit {
-                                if returnSubmit {
-                                    dataService.updateData(withText: dataField)
-                                }
-                                dataField.append("\n")
-                                dataFieldHasFocus = true
-                            }
-                            .lineLimit(10...)
-                            .font(.body.monospaced())
-                            .focused($dataFieldHasFocus)
-                        }
-                        
-                        Section {
-                            
-                            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                        VStack(alignment:.leading) {
+                            EnumPicker<CurveProfile>(label:"Fit Curve", value: $dataService.curve)
+                            Button("Run Fit", action: dataService.updateCurveFit)
+                        }.padding(5)
+                    }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                    Section {
+                        Button("Load Curve To Edit", action: dataService.updateNundgedWithFit)
+                        EnumPicker<CurveProfile>(label: "Nudge Curve", value: $dataService.nudgedFunctionCurve)
+                        Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                            if dataService.nudgedFunctionParameters.count >= 1 {
                                 GridRow {
-                                    Text("Try Curve:")
-                                    EnumPicker<CurveProfile>(value: $dataService.curve)
-                                    Button("Run Fit", action: dataService.updateCurveFit)
-                                }
-                                
-                                GridRow {
-                                    Text("Error Analysis:")
-                                    Text("[options]").foregroundColor(.secondary)
-                                    Button("Run Analysis", action: dataService.updateErrorAnalysis)
+                                    Text("Paramter 1")
+                                    TextField("Paramter 1", value: $dataService.nudgedFunctionParameters[0], format: .number)
                                 }
                             }
-                        }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
-                      
-                        Section {
-                            Button("Load Curve To Edit", action: dataService.updateNundgedWithFit)
-                            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                            if dataService.nudgedFunctionParameters.count >= 2 {
                                 GridRow {
-                                    Text("Nudge Curve:")
-                                    EnumPicker<CurveProfile>(value: $dataService.nudgedFunctionCurve)
+                                    Text("Paramter 2")
+                                    TextField("Paramter 2", value: $dataService.nudgedFunctionParameters[1], format: .number)
                                 }
-                                if dataService.nudgedFunctionParameters.count >= 1 {
-                                    GridRow {
-                                        Text("Paramter 1")
-                                        TextField("Paramter 1", value: $p1, format: .number)
-                                    }
+                            }
+                            if dataService.nudgedFunctionParameters.count >= 3 {
+                                GridRow {
+                                    Text("Paramter 3")
+                                    TextField("Paramter 3", value: $dataService.nudgedFunctionParameters[2], format: .number)
                                 }
-                                if dataService.nudgedFunctionParameters.count >= 2 {
-                                    GridRow {
-                                        Text("Paramter 2")
-                                        TextField("Paramter 2", value: $p2, format: .number)
-                                    }
-                                }
-                                if dataService.nudgedFunctionParameters.count >= 3 {
-                                    GridRow {
-                                        Text("Paramter 3")
-                                        TextField("Paramter 3", value: $p3, format: .number)
-                                    }
-                                }
-                                Button("Nudge", action: dataService.buildNudge([p1, p2, p3]))
-                                
-                            }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                            }
+                            
                         }
-                        
-                    }.padding()
+                    }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                    Section {
+                        Button("Run Error Analysis", action: dataService.updateErrorAnalysis)
+                    }.opacity((dataService.data.count > 3) ? 1.0 : 0.5)
+                    
+                }.padding()
                 
             }.toolbar {
                 //Button("Paste", action: dataService.paste) //is not working

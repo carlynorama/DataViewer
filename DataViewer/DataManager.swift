@@ -34,7 +34,7 @@ final class DataManager: ObservableObject {
     //MARK: Loading Data
     //@Published private(set) var testData = DataHelper.generateTestData(using: DataHelper.testInverseSquare, for: DataHelper.testValues).sortedByX()
     
-    @Published var parseStrategy:DataParser.ParseStrategy = .lineDelimited
+    @Published var parseStrategy:DataParser.ParseStrategy = .arrayPrint
     
     //TODO: Throw
     func updateData(withText text:String) {
@@ -67,15 +67,19 @@ final class DataManager: ObservableObject {
 
     func updateErrorAnalysis() {
         errorAnalysisMessage = runErrorAnalysis(on: data, using: fitFuntion)
+        if hasNudge {
+            nudgedErrorAnalysisMessage = runErrorAnalysis(on: data, using: nudgeFunction)
+        }
     }
     
     private func runErrorAnalysis(on data:[DataPoint], using function:(Number)->Number) -> String {
         return DataHelper.testFit(data, to:function).description
     }
     
-    //MARK: Nudge Fit
+    //MARK: Nudged Fit Curve
     @Published var nudgedFunctionCurve:CurveProfile = .linear
     @Published var nudgedFunctionParameters:[Number] = [2, 4]
+    @Published var hasNudge:Bool = false
                                                 
     var nudgeFunction:(Number)->(Number) {
         DataHelper.generateFunction(using: nudgedFunctionCurve, parameterValues: nudgedFunctionParameters)
@@ -84,17 +88,7 @@ final class DataManager: ObservableObject {
     func updateNundgedWithFit() {
         nudgedFunctionCurve = curve
         nudgedFunctionParameters = CurveProfile.extractParameterValues(parameters: fitResult.values)
-    }
-    
-    func buildNudge(_ values:[Double]) {
-        var parameters:[Number] = []
-        var theKeys:[String] = []
-        for i in 0..<nudgedFunctionParameters.count {
-            parameters.append(values[i])
-        }
-
-        nudgedFunctionParameters = zip(keys, parameters)
-        
+        hasNudge = true
     }
     
     
@@ -102,6 +96,8 @@ final class DataManager: ObservableObject {
     //MARK: Display Text
     @Published private(set) var errorAnalysisMessage = "No Error Analysis Available"
     @Published private(set) var curveFitMessage = "No Curve Fit Results Available"
+    
+    @Published private(set) var nudgedErrorAnalysisMessage = "No Error Analysis Available"
     
 //    var minX:String {
 //        data.minXPoint()?.description ?? "None Found"

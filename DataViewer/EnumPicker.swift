@@ -38,12 +38,14 @@ fileprivate enum TestEnum:PickerSuppliable{
 
 struct EnumPicker<E:PickerSuppliable>: View {
     let options:[E] = E.allCases as! [E]
+    
+    var label:String? = nil
     @Binding var value:E
 
     var body: some View {
         VStack {
             VStack {
-                Picker(E.labelText, selection: $value) {
+                Picker(label ?? E.labelText, selection: $value) {
                     //ForEach(options) { option in is only for identifiable
                     ForEach(options, id: \.self) { option in
                         Text(option.menuText)

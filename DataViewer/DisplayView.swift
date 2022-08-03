@@ -14,6 +14,7 @@ struct DisplayView: View {
     
     var body: some View {
         VStack {
+            Text("Reccomended Curve")
             Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
                 GridRow(alignment: .firstTextBaseline) {
                     Text("Curve Fit:")
@@ -28,11 +29,20 @@ struct DisplayView: View {
             
 
             Chart(dataService.data, id: \.x) { point in
-                LineMark(
-                    x: .value("X", point.x),
-                    y: .value("Y", dataService.fitFuntion(point.x))
-                )
-                .interpolationMethod(.catmullRom)
+                if dataService.hasNudge {
+                    LineMark(
+                        x: .value("X", point.x),
+                        y: .value("Y", dataService.nudgeFunction(point.x))
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(.purple)
+                } else {
+                    LineMark(
+                        x: .value("X", point.x),
+                        y: .value("Y", dataService.fitFuntion(point.x))
+                    )
+                    .interpolationMethod(.catmullRom)
+                }
                 PointMark(
                     x: .value("X", point.x),
                     y: .value("Y", point.y)
@@ -40,7 +50,13 @@ struct DisplayView: View {
             }
             .aspectRatio(1, contentMode: .fit)
 
-            
+            Text("Nudged Curve")
+            Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 20) {
+                GridRow(alignment: .firstTextBaseline) {
+                    Text("Error Analysis:")
+                    Text("\(dataService.nudgedErrorAnalysisMessage)")
+                }
+            }
         }
     }
 }
