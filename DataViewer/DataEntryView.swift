@@ -156,7 +156,7 @@ struct DataEntryView: View {
     
     func clearData() {
         dataField = "" //prevents visual blip
-        dataService.clearData()
+        dataService.reset()
         //print(("DataEntryView.clearData: \(dataService.datatext)"))
         //Confirms that dataService.datatext is empty.
         loadTextFromService()

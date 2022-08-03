@@ -32,7 +32,11 @@ final class DataManager: ObservableObject {
     @Published private(set) var hasData:Bool = false
     
     //MARK: Loading Data
-    //@Published private(set) var testData = DataHelper.generateTestData(using: DataHelper.testInverseSquare, for: DataHelper.testValues).sortedByX()
+    
+    func setForFunc(_ f:(Number)->Number) -> [DataPoint] {
+        let splitData = data.unzipDataPoints()
+        return DataHelper.generateTestData(for: splitData.inputs, using: f)
+    }
     
     @Published var parseStrategy:DataParser.ParseStrategy = .arrayPrint
     
@@ -86,6 +90,7 @@ final class DataManager: ObservableObject {
             fitCurve = storedFitStrategy
         }
         
+    
         if let storedNudgeStrategy = loadCurveForKey(nudgeStrategyKey) {
             nudgedFunctionCurve = storedNudgeStrategy
         }
@@ -101,15 +106,35 @@ final class DataManager: ObservableObject {
         storage.set(fitCurve.rawValue, forKey: fitStrategyKey)
         storage.set(nudgedFunctionCurve.rawValue, forKey: nudgeStrategyKey)
         storage.set(nudgedFunctionParameters,forKey: nudgeValuesKey)
-        print("DataViewer.saveSettings")
+        //print("DataViewer.saveSettings")
     }
     
-    func clearData() {
+    func clearDataSettings() {
+        //storage.removeObject(forKey: parseStrategyKey)
+        storage.removeObject(forKey: fitStrategyKey)
+        storage.removeObject(forKey: nudgeStrategyKey)
+        storage.removeObject(forKey: nudgeValuesKey)
+    }
+    
+    func reset() {
+        hasData = false
         data = []
         storage.removeObject(forKey: datasStringKey)
         datatext = ""
         inputText = ""
-        hasData = false
+ 
+        clearDataSettings()
+        
+        nudgedFunctionCurve = .linear
+        nudgedFunctionParameters = [2,4]
+        hasNudge = false
+        
+        fitCurve = .linear
+        fitFuntion = DataHelper.generateFunction(using: CurveProfile.linear, with: ["m":2, "b":4])
+        
+        errorAnalysisMessage = "No Error Analysis Available"
+        curveFitMessage = "No Curve Fit Results Available"
+        nudgedErrorAnalysisMessage = "No Error Analysis Available"
     }
     
     //MARK: Fitting Data
@@ -130,9 +155,11 @@ final class DataManager: ObservableObject {
     }
 
     func updateErrorAnalysis() {
-        errorAnalysisMessage = runErrorAnalysis(on: data, using: fitFuntion)
-        if hasNudge {
-            nudgedErrorAnalysisMessage = runErrorAnalysis(on: data, using: nudgeFunction)
+        if data.count > 2 {
+            errorAnalysisMessage = runErrorAnalysis(on: data, using: fitFuntion)
+            if hasNudge {
+                nudgedErrorAnalysisMessage = runErrorAnalysis(on: data, using: nudgeFunction)
+            }
         }
     }
     
