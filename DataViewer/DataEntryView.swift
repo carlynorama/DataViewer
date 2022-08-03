@@ -89,7 +89,7 @@ struct DataEntryView: View {
                                         .onChange(of: np1Focused) { isFocused in
                                             if !isFocused {
                                                 dataService.saveSettings()
-                                                print("1")
+                                                //print("1")
                                             }
                                         }
                                 }
@@ -103,7 +103,7 @@ struct DataEntryView: View {
                                         .onChange(of: np2Focused) { isFocused in
                                             if !isFocused {
                                                 dataService.saveSettings()
-                                                print("2")
+                                                //print("2")
                                             }
                                         }
                                 }
@@ -117,7 +117,7 @@ struct DataEntryView: View {
                                         .onChange(of: np3Focused) { isFocused in
                                             if !isFocused {
                                                 dataService.saveSettings()
-                                                print("3")
+                                                //print("3")
                                             }
                                         }
                                 }
