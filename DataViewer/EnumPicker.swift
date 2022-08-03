@@ -11,9 +11,12 @@ import SwiftUI
 
 protocol PickerSuppliable:CaseIterable, Hashable {
     var menuText:String { get }
+    static var labelText:String { get }
 }
 
 fileprivate enum TestEnum:PickerSuppliable{
+    static var labelText: String = "TestEnum"
+    
     //var id:TestEnum { self }
     
     case yes, no, maybe
@@ -29,6 +32,8 @@ fileprivate enum TestEnum:PickerSuppliable{
             return "Maybe"
         }
     }
+    
+
 }
 
 struct EnumPicker<E:PickerSuppliable>: View {
@@ -38,7 +43,7 @@ struct EnumPicker<E:PickerSuppliable>: View {
     var body: some View {
         VStack {
             VStack {
-                Picker("Favorite Color", selection: $value) {
+                Picker(E.labelText, selection: $value) {
                     //ForEach(options) { option in is only for identifiable
                     ForEach(options, id: \.self) { option in
                         Text(option.menuText)

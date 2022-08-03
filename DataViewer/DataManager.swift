@@ -53,8 +53,8 @@ final class DataManager: ObservableObject {
     }
     
     //MARK: Fitting Data
-    @Published var fitFuntion = DataHelper.generateFunction(using: FitStrategy.linear, with: ["m":2, "b":4])
-    @Published var curve:FitStrategy = .linear
+    @Published var fitFuntion = DataHelper.generateFunction(using: CurveProfile.linear, with: ["m":2, "b":4])
+    @Published var curve:CurveProfile = .linear
     @Published var fitResult:(description:String, values:Dictionary<String, Number>) = ("starting fit 2x+4", ["m":2, "b":4])
     
     func updateCurveFit() {
@@ -74,16 +74,27 @@ final class DataManager: ObservableObject {
     }
     
     //MARK: Nudge Fit
-    @Published var nudgedFunctionCurve:FitStrategy = .linear
-    @Published var nudgedFunctionParameters:Dictionary<String, Number> = ["m":2, "b":4]
+    @Published var nudgedFunctionCurve:CurveProfile = .linear
+    @Published var nudgedFunctionParameters:[Number] = [2, 4]
                                                 
     var nudgeFunction:(Number)->(Number) {
-        DataHelper.generateFunction(using: nudgedFunctionCurve, with: nudgedFunctionParameters)
+        DataHelper.generateFunction(using: nudgedFunctionCurve, parameterValues: nudgedFunctionParameters)
     }
     
     func updateNundgedWithFit() {
         nudgedFunctionCurve = curve
-        nudgedFunctionParameters = fitResult.values
+        nudgedFunctionParameters = CurveProfile.extractParameterValues(parameters: fitResult.values)
+    }
+    
+    func buildNudge(_ values:[Double]) {
+        var parameters:[Number] = []
+        var theKeys:[String] = []
+        for i in 0..<nudgedFunctionParameters.count {
+            parameters.append(values[i])
+        }
+
+        nudgedFunctionParameters = zip(keys, parameters)
+        
     }
     
     
