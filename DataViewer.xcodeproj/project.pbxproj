@@ -19,6 +19,7 @@
 		DA147D1B2897074800E587D9 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D1A2897074800E587D9 /* DisplayView.swift */; };
 		DA147D202897092900E587D9 /* DataHelper in Frameworks */ = {isa = PBXBuildFile; productRef = DA147D1F2897092900E587D9 /* DataHelper */; };
 		DA147D262898483E00E587D9 /* EnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA147D252898483E00E587D9 /* EnumPicker.swift */; };
+		DACBFAEC289B0C2900515392 /* ChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFAEB289B0C2800515392 /* ChartTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		DA147D1A2897074800E587D9 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
 		DA147D1D2897075A00E587D9 /* DataHelper */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DataHelper; path = ../DataHelper; sourceTree = "<group>"; };
 		DA147D252898483E00E587D9 /* EnumPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumPicker.swift; sourceTree = "<group>"; };
+		DACBFAEB289B0C2800515392 /* ChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				DA147CED2896F8EF00E587D9 /* ContentView.swift */,
 				DA147D182897062400E587D9 /* DataEntryView.swift */,
 				DA147D1A2897074800E587D9 /* DisplayView.swift */,
+				DACBFAEB289B0C2800515392 /* ChartTests.swift */,
 				DA147D162896F95A00E587D9 /* DataManager.swift */,
 				DA147D252898483E00E587D9 /* EnumPicker.swift */,
 				DA147CEF2896F8F000E587D9 /* Assets.xcassets */,
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DACBFAEC289B0C2900515392 /* ChartTests.swift in Sources */,
 				DA147D1B2897074800E587D9 /* DisplayView.swift in Sources */,
 				DA147D262898483E00E587D9 /* EnumPicker.swift in Sources */,
 				DA147D172896F95A00E587D9 /* DataManager.swift in Sources */,
