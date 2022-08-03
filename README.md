@@ -11,10 +11,12 @@ Requires:
    -  [DataHelper package](https://github.com/carlynorama/DataHelper)
     
 
-## Release History
+## Useage    
 
 ![screen shot](https://github.com/carlynorama/DataViewer/blob/main/one_screen.png?raw=true)
 
+
+## Release History
 
 * 0.0.0
     * Current State. Wouldn't exactly call it "released".  
