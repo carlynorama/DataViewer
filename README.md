@@ -13,7 +13,7 @@ Requires:
 
 ## Release History
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/one_screen.png?raw=true)
+![screen shot](https://github.com/carlynorama/DataViewer/blob/main/one_screen.png?raw=true)
 
 
 * 0.0.0
