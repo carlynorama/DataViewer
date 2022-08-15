@@ -9,9 +9,10 @@ import SwiftUI
 import Charts
 
 struct ChartTests: View {
-    struct ProfitOverTime {
+    struct ProfitOverTime:Identifiable {
         var date: Date
         var profit: Double
+        var id = UUID()
     }
 
     static func months(forYear year:Int) -> [Date] {
@@ -43,18 +44,20 @@ struct ChartTests: View {
 
     var body: some View {
         Chart {
-            ForEach(departmentAProfit, id: \.date) {
+            ForEach(departmentAProfit) {
                 LineMark(
                     x: .value("Date", $0.date),
-                    y: .value("Profit A", $0.profit)
+                    y: .value("Profit A", $0.profit),
+                    series: .value("Company", "A")
                 )
                 .foregroundStyle(.blue)
             }
             
-            ForEach(departmentBProfit, id: \.date) {
+            ForEach(departmentBProfit) {
                 LineMark(
                     x: .value("Date", $0.date),
-                    y: .value("Profit B", $0.profit)
+                    y: .value("Profit B", $0.profit),
+                    series: .value("Company", "B")
                 )
                 .foregroundStyle(.green)
             }
